@@ -1,4 +1,4 @@
-# Middleware [![GoDoc](https://godoc.org/github.com/jeevatkm/middleware?status.svg)](https://godoc.org/github.com/jeevatkm/middleware)
+# Middleware [![Build Status](https://travis-ci.org/jeevatkm/middleware.svg?branch=master)](https://travis-ci.org/jeevatkm/middleware) [![GoDoc](https://godoc.org/github.com/jeevatkm/middleware?status.svg)](https://godoc.org/github.com/jeevatkm/middleware)
 A collection of HTTP middleware/Handler function for use with Go's net/http package (in other words any framework supporting http.Handler)
 
 * Minify middleware using 'tdewolff/minify'
