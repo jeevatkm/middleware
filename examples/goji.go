@@ -12,7 +12,7 @@ import (
 	"github.com/zenazn/goji/web"
 )
 
-func home(c web.C, w http.ResponseWriter, r *http.Request) {
+func gojiHome(c web.C, w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`
 		<!DOCTYPE html>
 		<html>
@@ -79,6 +79,6 @@ func main() {
 	// Note: If you use any Gzip middleware, add Minify middleware after that
 	goji.Use(middleware.Minify)
 
-	goji.Get("/", home)
+	goji.Get("/", gojiHome)
 	goji.Serve()
 }
