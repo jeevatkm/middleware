@@ -41,50 +41,55 @@ func performTest(r *http.Request, h http.Handler) *httptest.ResponseRecorder {
 	return w
 }
 
-func TestMinify(t *testing.T) {
-	t.Parallel()
-
+func TestMinifyAutoDetectContentType(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/", nil)
 	bodyBytes := []byte(testHtmlString)
 
-	// Auto detect content type
-	t1 := performTest(r,
+	res := performTest(r,
 		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.Write(bodyBytes)
 		}),
 	)
-	if t1.Code != http.StatusOK {
-		t.Errorf("Request failed %d, not 200", t1.Code)
+	if res.Code != http.StatusOK {
+		t.Errorf("Request failed %d, not 200", res.Code)
 	}
-	if len(bodyBytes) == len(t1.Body.Bytes()) {
-		t.Errorf("Request Body is not minified [original bytes: %d, response bytes: %d]", len(bodyBytes), len(t1.Body.Bytes()))
+	if len(bodyBytes) == len(res.Body.Bytes()) {
+		t.Errorf("Request Body is not minified [original bytes: %d, response bytes: %d]", len(bodyBytes), len(res.Body.Bytes()))
 	}
+}
 
-	// Using content type value as text/html
-	t2 := performTest(r,
+func TestMinifyContentTypeTextHTML(t *testing.T) {
+	r, _ := http.NewRequest("GET", "/", nil)
+	bodyBytes := []byte(testHtmlString)
+
+	res := performTest(r,
 		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "text/html; charset=utf-8")
 			w.Write(bodyBytes)
 		}),
 	)
-	if t2.Code != http.StatusOK {
-		t.Errorf("Request failed %d, not 200", t2.Code)
+	if res.Code != http.StatusOK {
+		t.Errorf("Request failed %d, not 200", res.Code)
 	}
-	if len(bodyBytes) == len(t2.Body.Bytes()) {
-		t.Errorf("Request Body is not minified [original bytes: %d, response bytes: %d]", len(bodyBytes), len(t2.Body.Bytes()))
+	if len(bodyBytes) == len(res.Body.Bytes()) {
+		t.Errorf("Request Body is not minified [original bytes: %d, response bytes: %d]", len(bodyBytes), len(res.Body.Bytes()))
 	}
+}
 
-	// Using content type value as application/html
-	t3 := performTest(r,
+func TestMinifyContentTypeApplicationHTML(t *testing.T) {
+	r, _ := http.NewRequest("GET", "/", nil)
+	bodyBytes := []byte(testHtmlString)
+
+	res := performTest(r,
 		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/html; charset=utf-8")
 			w.Write(bodyBytes)
 		}),
 	)
-	if t3.Code != http.StatusOK {
-		t.Errorf("Request failed %d, not 200", t3.Code)
+	if res.Code != http.StatusOK {
+		t.Errorf("Request failed %d, not 200", res.Code)
 	}
-	if len(bodyBytes) == len(t3.Body.Bytes()) {
-		t.Errorf("Request Body is not minified [original bytes: %d, response bytes: %d]", len(bodyBytes), len(t3.Body.Bytes()))
+	if len(bodyBytes) == len(res.Body.Bytes()) {
+		t.Errorf("Request Body is not minified [original bytes: %d, response bytes: %d]", len(bodyBytes), len(res.Body.Bytes()))
 	}
 }
