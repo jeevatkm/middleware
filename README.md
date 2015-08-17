@@ -1,4 +1,4 @@
-# Middleware [![Build Status](https://travis-ci.org/jeevatkm/middleware.svg?branch=master)](https://travis-ci.org/jeevatkm/middleware) [![GoDoc](https://godoc.org/github.com/jeevatkm/middleware?status.svg)](https://godoc.org/github.com/jeevatkm/middleware)
+# Middleware [![Build Status](https://travis-ci.org/jeevatkm/middleware.svg?branch=master)](https://travis-ci.org/jeevatkm/middleware) [![GoDoc](https://godoc.org/github.com/jeevatkm/middleware?status.svg)](https://godoc.org/github.com/jeevatkm/middleware) [![GoCover](http://gocover.io/_badge/github.com/jeevatkm/middleware)](http://gocover.io/github.com/jeevatkm/middleware)
 A collection of HTTP middleware/Handler function for use with Go's net/http package. Compatible with Goji, Gorilla, Negroni & net/http (amongst many others).
 
 * Minify HTTP middleware using [tdewolff/minify](https://github.com/tdewolff/minify)
