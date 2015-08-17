@@ -54,6 +54,11 @@ func (m *minifyWriter) Write(b []byte) (int, error) {
 	return len(b), nil
 }
 
+/*
+Simple and generic minify middle using 'tdewolff/minify' package.
+Minify middleware performs HTML, Inline CSS, Inline JS minification.
+Refer: https://github.com/jeevatkm/middleware/examples
+*/
 func Minify(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		mw := &minifyWriter{
