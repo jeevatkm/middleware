@@ -21,7 +21,7 @@ import "gopkg.in/jeevatkm/middleware.v0"
 
 ## Examples
 
-Working on it...
+Refer [examples](https://github.com/jeevatkm/middleware/tree/master/examples)
 
 ## License
 Middleware released under [MIT License](https://github.com/jeevatkm/middleware/blob/master/LICENSE)
