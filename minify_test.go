@@ -93,3 +93,21 @@ func TestMinifyContentTypeApplicationHTML(t *testing.T) {
 		t.Errorf("Request Body is not minified [original bytes: %d, response bytes: %d]", len(bodyBytes), len(res.Body.Bytes()))
 	}
 }
+
+func TestNonMinifyContentType(t *testing.T) {
+	r, _ := http.NewRequest("GET", "/", nil)
+	bodyBytes := []byte(`{"type":"Non-Minify contentType"}`)
+
+	res := performTest(r,
+		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			w.Write(bodyBytes)
+		}),
+	)
+	if res.Code != http.StatusOK {
+		t.Errorf("Request failed %d, not 200", res.Code)
+	}
+	if len(bodyBytes) != len(res.Body.Bytes()) {
+		t.Errorf("Request Body is minified [original bytes: %d, response bytes: %d]", len(bodyBytes), len(res.Body.Bytes()))
+	}
+}
