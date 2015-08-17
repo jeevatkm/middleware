@@ -4,20 +4,24 @@ A collection of HTTP middleware/Handler function for use with Go's net/http pack
 * Minify middleware using 'tdewolff/minify'
 * will be adding...
 
-# Start using it
+## Start using it
 * Installation
-<pre>go get github.com/jeevatkm/middleware
+```sh
+go get github.com/jeevatkm/middleware
                    OR
-go get gopkg.in/jeevatkm/middleware.v0</pre>
+go get gopkg.in/jeevatkm/middleware.v0
+```
 
 * Import it in your code
-<pre>import "github.com/jeevatkm/middleware"
+```go
+import "github.com/jeevatkm/middleware"
                    OR
-import "gopkg.in/jeevatkm/middleware.v0"</pre>
+import "gopkg.in/jeevatkm/middleware.v0"
+```
 
-# Examples
+## Examples
 
 Working on it...
 
-# License
+## License
 Middleware released under [MIT License](https://github.com/jeevatkm/middleware/blob/master/LICENSE)
