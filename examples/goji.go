@@ -1,16 +1,18 @@
 /*
-Example for How to use with standard net/http package.
+Example for How to use with standard Goji web framework.
 */
 package main
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/jeevatkm/middleware"
+
+	"github.com/zenazn/goji"
+	"github.com/zenazn/goji/web"
 )
 
-func home(w http.ResponseWriter, r *http.Request) {
+func home(c web.C, w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`
 		<!DOCTYPE html>
 		<html>
@@ -34,9 +36,9 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 		<body>
 
-		<h1>Minify Vanilla Example</h1>
+		<h1>Minify Goji Example</h1>
 
-		<p>Example vanilla paragraph.</p>
+		<p>Minify Goji paragraph.</p>
 		<div id="example"></div>
 
 		<script>
@@ -72,11 +74,11 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	homeHandler := http.HandlerFunc(home)
 
+	// Adding Minify middleware
 	// Note: If you use any Gzip middleware, add Minify middleware after that
-	http.Handle("/", middleware.Minify(homeHandler))
+	goji.Use(middleware.Minify)
 
-	log.Println("Starting server at localhost:8000")
-	http.ListenAndServe(":8000", nil)
+	goji.Get("/", home)
+	goji.Serve()
 }
