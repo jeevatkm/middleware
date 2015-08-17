@@ -6,12 +6,12 @@ package main
 import (
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/jeevatkm/middleware"
 )
 
-func home(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte(`
+var htmlString = `
 		<!DOCTYPE html>
 		<html>
 		<head>
@@ -34,9 +34,9 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 		<body>
 
-		<h1>Minify Vanilla Example</h1>
+		<h1>Minify #NAME# Example</h1>
 
-		<p>Example vanilla paragraph.</p>
+		<p>Example #NAME# paragraph.</p>
 		<div id="example"></div>
 
 		<script>
@@ -68,12 +68,16 @@ func home(w http.ResponseWriter, r *http.Request) {
 			</script>
 
 		</body>
-		</html>`))
+		</html>`
+
+func home(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte(strings.Replace(htmlString, "#NAME#", "Vanilla", -1)))
 }
 
 func main() {
 	homeHandler := http.HandlerFunc(home)
 
+	// Adding Minify middleware
 	// Note: If you use any Gzip middleware, add Minify middleware after that
 	http.Handle("/", middleware.Minify(homeHandler))
 

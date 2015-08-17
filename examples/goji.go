@@ -1,10 +1,12 @@
 /*
-Example for How to use with standard Goji web framework.
+Example for How to use with Goji micro web framework.
+https://github.com/zenazn/goji
 */
 package main
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/jeevatkm/middleware"
 
@@ -12,8 +14,7 @@ import (
 	"github.com/zenazn/goji/web"
 )
 
-func gojiHome(c web.C, w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte(`
+var htmlString = `
 		<!DOCTYPE html>
 		<html>
 		<head>
@@ -36,9 +37,9 @@ func gojiHome(c web.C, w http.ResponseWriter, r *http.Request) {
 
 		<body>
 
-		<h1>Minify Goji Example</h1>
+		<h1>Minify #NAME# Example</h1>
 
-		<p>Minify Goji paragraph.</p>
+		<p>Example #NAME# paragraph.</p>
 		<div id="example"></div>
 
 		<script>
@@ -70,7 +71,10 @@ func gojiHome(c web.C, w http.ResponseWriter, r *http.Request) {
 			</script>
 
 		</body>
-		</html>`))
+		</html>`
+
+func gojiHome(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte(strings.Replace(htmlString, "#NAME#", "Goji", -1)))
 }
 
 func main() {

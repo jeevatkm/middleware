@@ -1,5 +1,5 @@
 # Middleware [![Build Status](https://travis-ci.org/jeevatkm/middleware.svg?branch=master)](https://travis-ci.org/jeevatkm/middleware) [![GoDoc](https://godoc.org/github.com/jeevatkm/middleware?status.svg)](https://godoc.org/github.com/jeevatkm/middleware)
-A collection of HTTP middleware/Handler function for use with Go's net/http package. Compatible with Goji, Gorilla, Gin & net/http (amongst many others).
+A collection of HTTP middleware/Handler function for use with Go's net/http package. Compatible with Goji, Gorilla, Negroni & net/http (amongst many others).
 
 * Minify HTTP middleware using [tdewolff/minify](https://github.com/tdewolff/minify)
 * will be adding few...
@@ -28,6 +28,7 @@ Refer [examples](https://github.com/jeevatkm/middleware/tree/master/examples)
 func main() {
 	homeHandler := http.HandlerFunc(home)
 
+	// Adding Minify middleware
 	// Note: If you use any Gzip middleware, add Minify middleware after that
 	http.Handle("/", middleware.Minify(homeHandler))
 
@@ -40,13 +41,44 @@ func main() {
 
 ```go
 func main() {
-
 	// Adding Minify middleware
 	// Note: If you use any Gzip middleware, add Minify middleware after that
 	goji.Use(middleware.Minify)
 
-	goji.Get("/", home)
+	goji.Get("/", gojiHome)
 	goji.Serve()
+}
+```
+
+#### Gorilla Mux
+
+```go
+func main() {
+	r := mux.NewRouter()
+	r.HandleFunc("/", gorillaHome)
+
+	// Adding Minify middleware
+	// Note: If you use any Gzip middleware, add Minify middleware after that
+	http.Handle("/", middleware.Minify(r))
+
+	log.Println("Starting server at localhost:8000")
+	http.ListenAndServe(":8000", nil)
+}
+```
+
+#### Negroni web middleware
+
+```go
+func main() {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", negroniHome)
+
+	n := negroni.Classic()
+
+	// Adding Minify middleware
+	n.UseHandler(middleware.Minify(mux))
+
+	n.Run(":8000")
 }
 ```
 
