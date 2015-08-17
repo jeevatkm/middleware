@@ -18,9 +18,9 @@ var (
 
 func init() {
 	minifier = minify.New()
-	minifier.AddFunc("text/html", html.Minify)
-	minifier.AddFunc("text/css", css.Minify)
-	minifier.AddFunc("text/javascript", js.Minify)
+	minifier.AddFuncRegexp(regexp.MustCompile("[text|application]/html"), html.Minify)
+	minifier.AddFuncRegexp(regexp.MustCompile("[text|application]/[css|stylesheet]]"), css.Minify)
+	minifier.AddFuncRegexp(regexp.MustCompile("[text|application]/javascript"), js.Minify)
 
 	mediaType = regexp.MustCompile("[text|application]/[html|css|stylesheet|javascript]")
 }
