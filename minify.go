@@ -45,9 +45,15 @@ func (m *minifyWriter) WriteHeader(code int) {
 }
 
 func (m *minifyWriter) Write(b []byte) (int, error) {
+	h := m.ResponseWriter.Header()
+	if h.Get("Content-Type") == "" {
+		h.Set("Content-Type", http.DetectContentType(b))
+	}
+
 	if !m.wroteHeader {
 		m.WriteHeader(http.StatusOK)
 	}
+
 	if m.Body != nil {
 		m.Body.Write(b)
 	}
@@ -56,7 +62,8 @@ func (m *minifyWriter) Write(b []byte) (int, error) {
 
 /*
 Minify middleware is simple and generic using 'tdewolff/minify' package.
-Middleware minifies HTML, Inline CSS and Inline JS.
+Middleware minifies HTML, Inline CSS and Inline JS. Compatible with Goji,
+Gorilla, Gin & net/http (amongst many others).
 Refer: https://github.com/jeevatkm/middleware/examples
 */
 func Minify(h http.Handler) http.Handler {
