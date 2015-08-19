@@ -76,7 +76,7 @@ func TestMinifyContentTypeTextHTML(t *testing.T) {
 	}
 }
 
-func TestMinifyContentTypeApplicationHTML(t *testing.T) {
+func TestNonMinifyContentTypeApplicationHTML(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/", nil)
 	bodyBytes := []byte(testHtmlString)
 
@@ -89,8 +89,8 @@ func TestMinifyContentTypeApplicationHTML(t *testing.T) {
 	if res.Code != http.StatusOK {
 		t.Errorf("Request failed %d, not 200", res.Code)
 	}
-	if len(bodyBytes) == len(res.Body.Bytes()) {
-		t.Errorf("Request Body is not minified [original bytes: %d, response bytes: %d]", len(bodyBytes), len(res.Body.Bytes()))
+	if len(bodyBytes) != len(res.Body.Bytes()) {
+		t.Errorf("Request Body is minified [original bytes: %d, response bytes: %d]", len(bodyBytes), len(res.Body.Bytes()))
 	}
 }
 
