@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"net/http"
 	"regexp"
+	"strconv"
 
 	"github.com/tdewolff/minify"
 	"github.com/tdewolff/minify/css"
@@ -75,13 +76,14 @@ func Minify(h http.Handler) http.Handler {
 
 		h.ServeHTTP(mw, r)
 
-		ct := w.Header().Get("Content-Type")
+		hdr := w.Header()
+		ct := hdr.Get("Content-Type")
 		if mediaType.MatchString(ct) {
 			rb, err := minify.Bytes(minifier, ct, mw.Body.Bytes())
 			if err != nil {
 				_ = err // unsupported mediatype error or internal
 			}
-			
+
 			hdr.Del("Content-Length")
 			hdr.Set("Content-Length", strconv.Itoa(len(rb)))
 
