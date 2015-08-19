@@ -18,11 +18,11 @@ var (
 
 func init() {
 	minifier = minify.New()
-	minifier.AddFuncRegexp(regexp.MustCompile("[text|application]/html"), html.Minify)
-	minifier.AddFuncRegexp(regexp.MustCompile("[text|application]/[css|stylesheet]"), css.Minify)
-	minifier.AddFuncRegexp(regexp.MustCompile("[text|application]/javascript"), js.Minify)
+	minifier.AddFunc("text/css", css.Minify)
+	minifier.AddFunc("text/html", html.Minify)
+	minifier.AddFunc("text/javascript", js.Minify)
 
-	mediaType = regexp.MustCompile("[text|application]/[html|css|stylesheet|javascript]")
+	mediaType = regexp.MustCompile("text/[html|css|javascript]")
 }
 
 type minifyWriter struct {
@@ -81,6 +81,9 @@ func Minify(h http.Handler) http.Handler {
 			if err != nil {
 				_ = err // unsupported mediatype error or internal
 			}
+			
+			hdr.Del("Content-Length")
+			hdr.Set("Content-Length", strconv.Itoa(len(rb)))
 
 			w.Write(rb)
 		} else {
