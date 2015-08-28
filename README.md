@@ -5,18 +5,14 @@ A collection of HTTP middleware/Handler function for use with Go's net/http pack
 * will be adding few...
 
 ## Start using it
-* Installation
+#### Development
 ```sh
 go get github.com/jeevatkm/middleware
-                   OR
-go get gopkg.in/jeevatkm/middleware.v0
 ```
 
-* Import it in your code
-```go
-import "github.com/jeevatkm/middleware"
-                   OR
-import "gopkg.in/jeevatkm/middleware.v0"
+#### Stable
+```sh
+go get gopkg.in/jeevatkm/middleware.v0
 ```
 
 ## Examples
